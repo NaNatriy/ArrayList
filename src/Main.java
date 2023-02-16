@@ -22,6 +22,8 @@ public class Main {
             arr[i] = rand.nextInt(max - min + 1) + min;
         }
 
+        System.out.println(contains(arr, 4));
+
         long start = System.currentTimeMillis();
         sortInsertion(arr);
         System.out.println(System.currentTimeMillis() - start);
@@ -69,5 +71,24 @@ public class Main {
             }
             arr[j] = temp;
         }
+    }
+    public static boolean contains(int[] arr, int element) {
+        int min = 0;
+        int max = arr.length - 1;
+
+        while (min <= max) {
+            int mid = (min + max) / 2;
+
+            if (element == arr[mid]) {
+                return true;
+            }
+
+            if (element < arr[mid]) {
+                max = mid - 1;
+            } else {
+                min = mid + 1;
+            }
+        }
+        return false;
     }
 }
