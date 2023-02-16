@@ -1,28 +1,29 @@
-package menu;
+package intg;
 
 import java.util.Arrays;
 
-public class StringListImpl implements StringList {
+public class IntegerListImpl implements IntegerList {
 
-    private String[] array;
+    private Integer[] array;
     private int size;
 
-    public StringListImpl(int initialCapacity) {
-        if (initialCapacity < 0) {
-            throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
+    public IntegerListImpl(int initialCapacity) {
+        if(initialCapacity < 0) {
+            throw new IllegalArgumentException("Illegal Capacity " + initialCapacity);
         }
-        array = new String[initialCapacity];
+        array = new Integer[initialCapacity];
     }
 
-    private void ensureCapacity(int minCapacity) {
+    private void ensureCapacity (int minCapacity) {
         int oldCapacity = array.length;
         if (minCapacity > oldCapacity) {
-            int newCapacity = oldCapacity * (oldCapacity / 2);
+            int newCapacity = oldCapacity + (oldCapacity / 2);
             array = Arrays.copyOf(array, newCapacity);
         }
     }
 
-    public String add(String item) {
+    @Override
+    public Integer add(Integer item) {
         if (item == null) {
             throw new NullPointerException();
         }
@@ -30,9 +31,10 @@ public class StringListImpl implements StringList {
         return item;
     }
 
-    public String add(int index, String item) {
-        if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+    @Override
+    public Integer add(int index, Integer item) {
+        if(index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index: " + index + "size: " + size);
         }
         if (item == null) {
             throw new NullPointerException();
@@ -44,19 +46,21 @@ public class StringListImpl implements StringList {
         return item;
     }
 
-    public String set(int index, String item) {
+    @Override
+    public Integer set(int index, Integer item) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
         if (item == null) {
             throw new NullPointerException();
         }
-        String oldValue = array[index];
+        Integer oldValue = array[index];
         array[index] = item;
         return oldValue;
     }
 
-    public String remove(String item) {
+    @Override
+    public Integer remove(Integer item) {
         if (item == null) {
             throw new NullPointerException();
         }
@@ -68,11 +72,12 @@ public class StringListImpl implements StringList {
         throw new IllegalArgumentException("Element not found: " + item);
     }
 
-    public String remove(int index) {
+    @Override
+    public Integer remove(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
-        String oldValue = array[index];
+        Integer oldValue = array[index];
         int numMoved = size - index - 1;
         if (numMoved > 0) {
             System.arraycopy(array, index + 1, array, index, numMoved);
@@ -80,11 +85,13 @@ public class StringListImpl implements StringList {
         return oldValue;
     }
 
-    public boolean contains(String item) {
+    @Override
+    public boolean contains(Integer item) {
         return indexOf(item) != -1;
     }
 
-    public int indexOf(String item) {
+    @Override
+    public int indexOf(Integer item) {
         if (item == null) {
             throw new NullPointerException();
         }
@@ -96,7 +103,8 @@ public class StringListImpl implements StringList {
         return -1;
     }
 
-    public int lastIndexOf(String item) {
+    @Override
+    public int lastIndexOf(Integer item) {
         if (item == null) {
             throw new NullPointerException();
         }
@@ -108,16 +116,16 @@ public class StringListImpl implements StringList {
         return -1;
     }
 
-    public String get(int index) {
+    @Override
+    public Integer get(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
         return array[index];
     }
 
-
     @Override
-    public boolean equals(StringList otherList) {
+    public boolean equals(IntegerList otherList) {
         if (otherList == null) {
             throw new IllegalArgumentException("The other list cannot be null");
         }
@@ -154,8 +162,8 @@ public class StringListImpl implements StringList {
     }
 
     @Override
-    public String[] toArray() {
-        String[] array = new String[size];
+    public Integer[] toArray() {
+        Integer[] array = new Integer[size];
         System.arraycopy(array, 0, array, 0, size);
         return array;
     }
