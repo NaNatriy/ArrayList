@@ -37,9 +37,9 @@ public interface IntegerList {
         // элемент отсутствует в списке.
         Integer remove(int index);
 
-        // Проверка на существование элемента.
+        // Бинарный поиск элемента.
         // Вернуть true/false;
-        boolean contains(Integer item);
+        boolean contains(int[] arr, int item);
 
         // Поиск элемента.
         // Вернуть индекс элемента
@@ -77,4 +77,11 @@ public interface IntegerList {
         // из строк в списке
         // и вернуть его.
         Integer[] toArray();
-    }
+
+        void sortInsertion(IntegerList arr);
+
+        int partition(IntegerList arr, int begin, int end);
+
+        void quickSort(IntegerList arr, int begin, int end);
+
+}

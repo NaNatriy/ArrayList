@@ -27,6 +27,9 @@ public class IntegerListImpl implements IntegerList {
         if (item == null) {
             throw new NullPointerException();
         }
+        if (size == array.length) {
+            ensureCapacity(size + 1);
+        }
         array[size++] = item;
         return item;
     }
@@ -39,8 +42,9 @@ public class IntegerListImpl implements IntegerList {
         if (item == null) {
             throw new NullPointerException();
         }
-        ensureCapacity(size + 1);
-        System.arraycopy(array, index, array, index + 1, size - index);
+        if (size == array.length) {
+            ensureCapacity(size + 1);
+        }
         array[index] = item;
         size++;
         return item;
@@ -86,8 +90,24 @@ public class IntegerListImpl implements IntegerList {
     }
 
     @Override
-    public boolean contains(Integer item) {
-        return indexOf(item) != -1;
+    public boolean contains(int[] arr, int item) {
+        int min = 0;
+        int max = arr.length - 1;
+
+        while (min <= max) {
+            int mid = (min + max) / 2;
+
+            if (item == arr[mid]) {
+                return true;
+            }
+
+            if (item < arr[mid]) {
+                max = mid - 1;
+            } else {
+                min = mid + 1;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -166,5 +186,49 @@ public class IntegerListImpl implements IntegerList {
         Integer[] array = new Integer[size];
         System.arraycopy(array, 0, array, 0, size);
         return array;
+    }
+
+    @Override
+    public void sortInsertion(IntegerList arr) {
+        for (int i = 1; i < arr.size(); i++) {
+            int temp = arr.get(i);
+            int j = i;
+            while (j > 0 && arr.get(j - 1) >= temp) {
+                arr.set(j, arr.get(j - 1));
+                j--;
+            }
+            arr.set(j, temp);
+        }
+    }
+    @Override
+    public void quickSort(IntegerList arr, int begin, int end) {
+        if (begin < end) {
+            int partitionIndex = partition(arr, begin, end);
+
+            quickSort(arr, begin, partitionIndex - 1);
+            quickSort(arr, partitionIndex + 1, end);
+        }
+    }
+    @Override
+    public int partition(IntegerList arr, int end, int begin) {
+        int pivot = arr.get(end);
+        int i = (begin - 1);
+
+        for (int j = begin; j < end; j++) {
+            if (arr.get(j) <= pivot) {
+                i++;
+
+                swapElements(arr, i, j);
+            }
+        }
+
+        swapElements(arr, i + 1, end);
+        return i + 1;
+    }
+
+    public void swapElements(IntegerList arr, int indexA, int indexB) {
+        int tmp = arr.get(indexA);
+        arr.set(indexA, arr.get(indexB));
+        arr.set(indexB,  tmp);
     }
 }
